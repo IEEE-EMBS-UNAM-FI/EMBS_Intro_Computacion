@@ -1,4 +1,4 @@
-# Gestión de Citas, agenda y triaje de pacientes
+# Hospitalización y registro de tratamientos
 
 ## Equipo de datos
 | **Target release** | Lunes 10 Agosto |
@@ -12,36 +12,37 @@
 
 ## **Objective**
 
-Diseñar e implementar un sistema de programación de citas y recepción de pacientes que mejore los tiempos de atención y gestione la disponibilidad de los médicos veterinarios 
+Diseñar e implementar un sistema de control de pacientes hospitalizados que permita el registor en tiempo real, la programación de administración de medicamentos con alertas, el monitoreo vital y el control de insumos consumidos
 
 ## **Success metrics**
 
-Tener un módulo de agenda y recepción que clasifique correctamente las citas y reduzca tiempos de espera
+Garantizar un correcto tratamiento de los pacientes internados y minimizar errores humanos en el cambio de turno
 
 | **Goal** | **Metric** |
 | --- | --- |
-| **Priorizar urgencias** | 100% de las citas etiquetadas como "urgente" pasan a la cola inmediata |
-| **Cero sobreagendamiento** | 0% de solapamiento de horarios no autorizados para un mismo veterinario |
+| **Puntualidad de medicamentos** | >95% de los medicamentos administrados se marcan dentro de un rango de 154 minutos respecto a la hora programada |
+| **Cero omisiones en cambio de turno** | 100% de los pacientes hospitalizados con notas registradas al cambio de turno |
+| **Trazabilidad de ocupación** | Visualizar en tiempo real el estado de disponibilidad de jaulas/camas en la clínica |
 
 ## **Assumptions**
-La clínica cuenta con un equipo de recepción (PC o laptop) para operar la agenda en tiempo real
-Los veterinarios tienen horarios de atención predefinidos en el sistema
-El cliente puede solicitar una cita vía telefónica, presencial o a través de la web
+El área de hospitalización cuenta con un dispositivo (tables/laptop) para el uso de médicos y enfermeros
+La dosis de medicamentos se calculan de acuerdo al peso actual del paciente
+Cada espacio de hospitalización (jaula/cama) está identificado en la clínica
 
 ## **Milestones**
-Definir el catálogo de servicios (Nombre, duración, costo)
-Tener una lógica de asginación de triaje
-Diseño de interfaz de agenda/calendario para recepción y veterinarios
+Definir el esquema de base de datos para el ingreso/alta de pacientes
+Lógica de motor de alertas e indicaciones médicas programadas por horarios
+Tener un diseño de interfaz gráfica "Pizarra de hospitalización" para tener una vista general de los pacientes internados
 
 ## **Requirements**
 
 | **Requirement** | **User Story** | **Importance** | **Issue** | **Notes** |
 | --- | --- | --- | --- | --- |
-| RF-1 El sistema debe permitir al cliente agendar citas | --- | **Alta** | RF-1 | Las citas se pueden realizar a través del número telefónico, presencial o por la página web |
-| RF-2 El sistema debe permitir registrar una clasificación de llegada del paciente con nivel de gravedad | --- | **Alta** | RF-2 | El triaje se manejará con los colores: Verde, amarillo y rojo para priorizar su atencion|
-| RF-3 El sistema debe permitir al personal clínico cambiar el estado de la cita| --- | **Alta** | RF-3 | El estado se manejara con: Agendada, confirmada, en sala de espera, en consulta, cancelada, no asistió para monitorear el flujo|
-| RF-4 El sistema debe validar la disponibilidad del veterinario y consultorio antes de guardar una cita para evitar empalmes| --- | **Alta** | RF-4 | |
-| RnF-1 El sistema debe tener un tiempo de respuesta de 1.5 segundos al cargar las citas en el calendario/agenda| --- | **Alta** | RnF-1 | Requiere optimización de consultas SQL|
+| RF-1 El sistema debe permitir al veterinario dar de alta a un paciente a un paciente | --- | **Alta** | RF-1 | El alta a hospitalización permite una asignación a jaula/cama, motivo de ingreso y pronóstico inicial |
+| RF-2 El sistema debe permitir al veterinario prescribir medicamentos ppara el paciente | --- | **Alta** | RF-2 | La prescripción de medicamentos solicita fármaco, dosis, vía de administración y frecuencia por horas|
+| RF-3 El sistema debe permitir al enfermero marcar el estado de un medicamento como "Aplicado"| --- | **Alta** | RF-3 | Marcar el estado de un medicamento requiere la hora y firma del aplicador|
+| RF-4 El sistema debe permitir al personal médico monitorear las constantes vitales de los pacientes| --- | **Alta** | RF-4 | Se registra peso, temperatura, frecuencia cardiaca/respiratoria, apetito y micción/defecación|
+| RnF-1 El formulario de registro de constantes vitales no debe perder la información si la conexión se llega a perder| --- | **Alta** | RnF-1 | Implementar un guardado de local borrador|
 
 
 ## **Design and usability requirements**
@@ -52,11 +53,10 @@ Diseño de interfaz de agenda/calendario para recepción y veterinarios
 
 | **Question** | **Answer** | **Date Answered** |
 | --- | --- | --- |
-| ¿Qué pasa si llega una urgencia médica (rojo) y no hay veterinarios disponibles? |  |  |
+| ¿Que ocurre si un paciente cambia de jaula durante su estancia? |  |  |
 
 ## **Out of Scope**
-Recordatorios automáticos por SMS o WhatsApp
+Integración de bombas de infusión inteligentes mediante IoT
 
 ## **Reference materials**
-Guía clinicas para clasificación de urgencias
-Ejemplos de UI estilo Google Calendars para recepción
+Sistemas de Kardex médico electrónico
